@@ -33,6 +33,9 @@ Then:
 [Product tour, 70 s](fixproblem/static/videos/tour.mp4) ·
 [Import your tickets, 55 s](fixproblem/static/videos/import.mp4) ·
 [Investigate and act, 60 s](fixproblem/static/videos/investigate.mp4).
+https://github.com/user-attachments/assets/a5e9c5a5-8a8f-46ac-b9bb-fb8f4b5bf3c2
+
+
 They are regenerated from the live app with `python scripts/record_tutorials.py`: Playwright drives a
 real browser session while an overlay adds the animated cursor, spotlight and captions, and ffmpeg adds
 the title cards.
