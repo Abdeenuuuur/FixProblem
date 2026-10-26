@@ -1,0 +1,9 @@
+{% extends "public/_layout.html" %}{% block title %}Contact{% endblock %}
+{% block page %}<article class="doc"><h1>{{ 'Contact sales' if kind=='sales' else 'Contact us' }}</h1>
+{% if sent %}<div class="card card-b"><span class="pill green">Received</span><p>Thank you. Your reference number is <b>{{ sent }}</b>. We aim to reply by email; there is no staffed live chat or guaranteed response time during the pilot.</p></div>
+{% else %}<form method="post" class="card card-b"><input type="hidden" name="kind" value="{{ form.kind if form else kind }}">
+<label class="field"><span>Name</span><input type="text" name="name" value="{{ form.name if form else '' }}" style="width:100%"></label>
+<label class="field"><span>Email</span><input type="text" name="email" value="{{ form.email if form else '' }}" required style="width:100%"></label>
+<label class="field"><span>Topic</span><select name="topic"><option>General question</option><option {{ 'selected' if kind=='sales' }}>Business plan / pilot</option><option>Security</option><option>Data and privacy</option></select></label>
+<label class="field"><span>Message</span><textarea name="message" rows="5" required>{{ form.message if form else '' }}</textarea></label>
+<p class="muted small">We use these details only to reply to you.</p><button class="btn primary">Send</button></form>{% endif %}</article>{% endblock %}

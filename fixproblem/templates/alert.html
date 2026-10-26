@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% from "_ui.html" import icon, bars, tickets_table %}{% block title %}Alert{% endblock %}
+{% block crumbs %}<a href="{{ url_for('dashboard') }}">Dashboard</a> / <b>Emerging alert</b>{% endblock %}
+{% block content %}<span class="pill red">Emerging</span><h1 style="margin-top:10px">{{ alert.category|pretty }}: {{ alert.recent }} tickets in 14 days</h1>
+<p class="sub">{{ '%.1f'|format(alert.expected) }} expected · {{ '%.0f'|format(alert.growth) }}× normal · p = {{ '%.1e'|format(alert.p_value) }} · first seen {{ alert.first_seen[:10] }}</p>
+<div class="grid g2e"><div class="card"><div class="card-h"><h2>What customers are reporting</h2></div><div class="card-b"><p class="quote" style="margin-top:0">{{ alert.summary }}</p>
+<h2 style="margin-top:18px">Related clusters</h2><table><tbody>{% for m in members %}<tr class="row-link" data-href="{{ url_for('issue_detail', issue_id=m.issue_id) }}"><td>{{ m.label }}</td><td class="num muted">{{ m.size }} tickets</td></tr>{% endfor %}</tbody></table></div></div>
+<div class="card"><div class="card-h"><h2>Tickets per week</h2></div><div class="card-b">{{ bars(spark, 'var(--red)') }}</div></div></div>
+<div class="card" style="margin-top:16px"><div class="card-h"><h2>{{ tickets|length }} supporting tickets</h2></div>{{ tickets_table(tickets, colours) }}</div>{% endblock %}

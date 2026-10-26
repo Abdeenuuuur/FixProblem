@@ -1,0 +1,64 @@
+{% extends "public/_layout.html" %}{% from "_ui.html" import icon, sparkline %}{% block title %}Know what to fix next{% endblock %}
+{% block page %}
+<section class="section hero" style="padding-bottom:24px"><span class="eyebrow">Customer-support intelligence for support and product teams</span>
+<h1>Turn customer complaints into <em>your next best action</em>.</h1>
+<p>Find recurring issues, spot changes in support demand and give your team the evidence to decide what to fix first.</p>
+<div class="cta"><a class="btn primary lg" href="{{ url_for('demo') }}">Try the interactive demo {{ icon('arrow') }}</a><a class="btn lg" href="{{ url_for('login', tab='signup') }}">Analyse your tickets</a></div>
+<form class="ask-box" data-ask role="search" aria-label="Ask the Fixproblem assistant"><label class="sr-only" for="hero-q">Ask a question</label><input id="hero-q" name="q" type="text" placeholder="Ask anything, e.g. “Can I try it without customer data?”"><button class="btn primary">Ask</button></form>
+<p class="muted small" style="margin-top:14px">No account needed for the demo. Fixproblem analyses support data you import; it does not replace your helpdesk.</p></section>
+
+<section class="section" style="padding-top:8px;padding-bottom:28px" aria-labelledby="quick-h"><h2 class="sr-only" id="quick-h">Get started</h2><div class="quick">
+<div class="card"><span class="k">1 · 1 minute · no account</span><span class="t">See it working</span><p class="muted" style="margin:0">Open a sample workspace with synthetic tickets from a fictional company. Click any issue to see the evidence.</p><a class="btn primary" href="{{ url_for('demo') }}">Open the demo</a></div>
+<div class="card"><span class="k">2 · 5 minutes</span><span class="t">Bring your tickets</span><p class="muted" style="margin:0">Export a CSV from your helpdesk. The import wizard maps your columns and explains any row it cannot use before saving anything.</p><a class="btn" href="{{ url_for('csv_template') }}">Download the CSV template</a></div>
+<div class="card"><span class="k">3 · any time</span><span class="t">Act and share</span><p class="muted" style="margin:0">Assign owners, record what your team confirms, and download a management report for your next meeting.</p><a class="btn" href="{{ url_for('help_centre') }}#tutorial">Watch the tutorials</a></div></div></section>
+
+<section class="section" id="product" style="padding-top:8px" aria-labelledby="preview-h">
+{% if preview %}<div class="card" style="overflow:hidden"><div class="card-h"><h2 id="preview-h">Live product preview</h2><span class="sample-label">SAMPLE DATA · fictional “Northwind Broadband”</span><a class="right link" href="{{ url_for('demo') }}">Open the full demo →</a></div>
+<div class="grid g2" style="padding:18px"><div><div class="muted small">Top issue right now</div><h3 style="margin:4px 0 6px;font-size:18px">{{ preview.issue.label }} {% if preview.issue.emerging %}<span class="pill amber">emerging</span>{% endif %}</h3>
+<p class="muted" style="margin:0 0 12px">{{ preview.issue.size }} tickets · {{ preview.issue.recent }} in the last 14 days · priority {{ '%.0f'|format(preview.issue.priority) }}/100</p>
+<div class="muted small" style="margin-bottom:6px">Evidence: the customers’ own words</div>
+{% for e in preview.examples %}<div class="card card-b" style="margin-bottom:8px;padding:10px 12px"><span class="muted small">{{ e.ticket_id }} · {{ e.created_at[:10] }}</span><div>“{{ e.body }}”</div></div>{% endfor %}</div>
+<div><div class="muted small" style="margin-bottom:6px">Issue priorities</div><table><caption class="sr-only">Top five issues by priority in the sample data</caption><thead><tr><th>Issue</th><th class="num">Tickets</th><th class="num">Priority</th></tr></thead><tbody>
+{% for o in preview.others %}<tr><td>{{ o.label }}{% if o.emerging %} <span class="pill amber">emerging</span>{% endif %}</td><td class="num">{{ o.size }}</td><td class="num">{{ '%.0f'|format(o.priority) }}</td></tr>{% endfor %}</tbody></table>
+<div style="margin-top:12px">{{ sparkline(preview.spark, 300, 60) }}<div class="muted small">Weekly tickets for the top issue, last 12 weeks: {{ preview.spark|join(', ') }}</div></div></div></div></div>{% endif %}</section>
+
+<section class="section" aria-labelledby="video-h" style="padding-top:12px"><div class="grid g2" style="align-items:center">
+<div><h2 class="big" id="video-h">See it in 70 seconds</h2><p class="lead">A real walkthrough of the sample workspace: what changed, the evidence behind it, the issue board, the assistant and the management report.</p>
+<a class="btn" href="{{ url_for('help_centre') }}#tutorial">More tutorials</a></div>
+<video controls preload="none" poster="{{ url_for('static', filename='videos/tour.jpg') }}" style="width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow-lg)" aria-label="Product tour video with on-screen step captions"><source src="{{ url_for('static', filename='videos/tour.mp4') }}" type="video/mp4">Your browser cannot play this video.</video></div></section>
+
+<section class="band"><div class="section"><h2 class="big">Feedback is everywhere. Patterns are easy to miss.</h2>
+<p class="lead">Complaints arrive across email, chat and phone, and each agent sees only their own queue. By the time a monthly spreadsheet shows a recurring problem, customers have already contacted you several times about it.</p>
+<div class="cols3"><div class="card feature"><h3>Scattered</h3><p>The same problem is described in hundreds of different ways by different customers.</p></div>
+<div class="card feature"><h3>Inconsistent tags</h3><p>Manual categories vary between agents, so reports undercount real issues.</p></div>
+<div class="card feature"><h3>Late</h3><p>New problems surface weeks after they start, when they are already expensive.</p></div></div></div></section>
+
+<section class="section" id="how"><h2 class="big">How it works</h2><p class="lead">Import your tickets, let Fixproblem find the patterns, then act on the evidence.</p>
+<div class="cols3"><div class="card feature"><div class="num-step">1</div><h3>Import</h3><p>Upload a CSV export from your helpdesk. A guided wizard maps your columns and explains any rows it cannot use.</p></div>
+<div class="card feature"><div class="num-step">2</div><h3>Understand</h3><p>Tickets are categorised, grouped into recurring issues and ranked. Sudden changes in demand are flagged with the tickets behind them.</p></div>
+<div class="card feature"><div class="num-step">3</div><h3>Act</h3><p>Assign an owner, record what the team confirms, export a report and track what happens after you make a change.</p></div></div></section>
+
+<section class="band"><div class="section"><h2 class="big">Built for the people who decide what to fix</h2><div class="cols3">
+<div class="card feature"><div class="ic">{{ icon('users') }}</div><h3>Support managers</h3><p>See which problems drive contact volume and whether demand is changing, without hand-tagging spreadsheets.</p></div>
+<div class="card feature"><div class="ic">{{ icon('layers') }}</div><h3>Product leads</h3><p>Get ranked issues with the customers’ own words as evidence, and an owner and status for each one.</p></div>
+<div class="card feature"><div class="ic">{{ icon('chart') }}</div><h3>Analysts</h3><p>Search, filter and export clean, categorised data, and compare volume before and after a change.</p></div></div></div></section>
+
+<section class="section"><h2 class="big">What the AI does, and where people decide</h2><div class="grid g2e">
+<div class="card card-b"><h3>The system</h3><ul><li>Suggests a category for each ticket, with a confidence score.</li><li>Groups similar tickets into recurring issues.</li><li>Flags statistically unusual increases in demand.</li><li>Ranks issues by volume, severity, customer tier and growth.</li></ul></div>
+<div class="card card-b"><h3>Your team</h3><ul><li>Reviews tickets the model is unsure about; corrections are recorded and can be undone.</li><li>Confirms root causes. A spike shows that demand changed, not why.</li><li>Decides priorities, owners and actions.</li><li>Optional external AI summaries are off unless an admin adds an API key.</li></ul></div></div></section>
+
+<section class="band"><div class="section"><h2 class="big">Imports and integrations</h2><div class="grid g2e">
+<div class="card card-b"><h3><span class="pill green">Available</span> CSV import</h3><p class="muted">Any helpdesk that can export CSV, including Zendesk, Freshdesk and Intercom exports. Download the <a class="link" href="{{ url_for('csv_template') }}">CSV template</a>. Slack/Teams webhook alerts on the Team plan.</p></div>
+<div class="card card-b"><h3><span class="pill">Planned</span> Direct connectors</h3><p class="muted">Live connectors for Zendesk, Freshdesk and Intercom are planned and <b>not available yet</b>.</p></div></div></div></section>
+
+<section class="section" id="pricing"><h2 class="big">Pricing</h2><p class="lead">Prices and allowances are provisional while we run a pilot. <a class="link" href="{{ url_for('pricing') }}">See full plan details →</a></p>
+<div class="cols4">{% for key in ['demo','free','pro','business'] %}{% set p = plans[key] %}<div class="card card-b"><h3 style="margin:0">{{ p.name }}</h3>
+<div class="price" style="font-size:24px;font-weight:700;margin:6px 0">{% if p.price is none %}{{ 'Free' if key=='demo' else 'Contact us' }}{% elif p.price == 0 %}£0{% else %}£{{ '%.2f'|format(p.price/100) }}<small class="muted" style="font-size:13px"> /month</small>{% endif %}</div>
+<p class="muted small">{{ p.blurb }}</p><p class="small">{{ p.tickets }}<br>{{ p.seats }}</p></div>{% endfor %}</div></section>
+
+<section class="band" id="faq"><div class="section" style="max-width:820px"><h2 class="big">Frequently asked questions</h2>
+{% for q, a in faqs %}<details class="faq"><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}</div></section>
+
+<section class="section" style="text-align:center"><h2 class="big">Know what to fix next.</h2><p class="lead" style="margin:0 auto 22px">Explore the sample workspace in your browser, then bring your own tickets when you’re ready.</p>
+<div class="cta"><a class="btn primary lg" href="{{ url_for('demo') }}">Try the interactive demo</a><a class="btn lg" href="{{ url_for('login', tab='signup') }}">Start your workspace</a></div></section>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% from "_ui.html" import icon %}{% block title %}{{ 'Create account' if tab == 'signup' else 'Sign in' }}{% endblock %}
+{% block body %}<div class="card auth wide"><a href="{{ url_for('landing') }}"><img src="{{ url_for('static', filename='brand/icon.svg') }}" alt="Fixproblem home" width="40" height="40" style="margin-bottom:14px"></a><h1>{{ 'Create your account' if tab == 'signup' else 'Welcome back' }}</h1>
+<p class="sub">{{ 'Name, work email, password and a workspace name. That’s all.' if tab == 'signup' else 'Sign in to your Fixproblem workspace.' }}</p>
+
+<div class="tabs"><a href="{{ url_for('login') }}" class="{{ 'on' if tab != 'signup' }}">Sign in</a><a href="{{ url_for('login', tab='signup') }}" class="{{ 'on' if tab == 'signup' }}">Create account</a></div>
+{% if tab == 'signup' %}<form method="post" action="{{ url_for('signup') }}">
+<label class="field"><span>Full name</span><input type="text" name="name" value="{{ form.name if form else '' }}" autocomplete="name" required style="width:100%"></label>
+<label class="field"><span>Work email</span><input type="text" name="email" value="{{ form.email if form else '' }}" autocomplete="email" autocapitalize="none" required style="width:100%"></label>
+<label class="field"><span>Password</span><input type="password" name="password" autocomplete="new-password" required style="width:100%"><small>At least 8 characters with a letter and a number.</small></label>
+<label class="field"><span>Workspace name</span><input type="text" name="workspace" value="{{ form.workspace if form else '' }}" placeholder="e.g. Acme Support" style="width:100%"></label>
+<label class="check"><input type="checkbox" name="terms" value="1" required> <span>I agree to the terms and the <a class="link" href="{{ url_for('privacy') }}" target="_blank">privacy notice</a>, including how my activity in the app is recorded.</span></label>
+<label class="check"><input type="checkbox" name="marketing" value="1"> <span>Send me product updates and offers (optional).</span></label>
+<button class="btn primary" type="submit" style="width:100%;justify-content:center;height:38px;margin-top:6px">Start your workspace</button></form>
+{% else %}<form method="post" action="{{ url_for('login', next=request.args.get('next')) }}" id="login">
+<label class="field"><span>Email or demo username</span><input type="text" name="username" autocomplete="username" autocapitalize="none" autofocus style="width:100%"></label>
+<label class="field"><span>Password</span><input type="password" name="password" autocomplete="current-password" style="width:100%"></label>
+<button class="btn primary" type="submit" style="width:100%;justify-content:center;height:38px">Sign in</button></form>
+<p class="muted small" style="margin:16px 0 0">Demo workspace users (one click):</p>
+<div class="demo-users">{% for u in ['agent', 'analyst', 'admin'] %}<button type="button" onclick="document.querySelector('[name=username]').value='{{ u }}';document.querySelector('[name=password]').value='{{ u }}-demo';document.getElementById('login').submit()"><b>{{ u|capitalize }}</b></button>{% endfor %}</div>{% endif %}
+<div class="or">or</div>
+<a class="btn" href="{{ url_for('demo') }}" style="width:100%;justify-content:center;height:38px">Try the interactive demo</a>
+<p class="muted small" style="margin-top:10px;text-align:center">No account needed. Sample data from a fictional company, read-only.</p></div>{% endblock %}

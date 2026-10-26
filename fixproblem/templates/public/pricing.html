@@ -1,0 +1,14 @@
+{% extends "public/_layout.html" %}{% from "_ui.html" import icon %}{% block title %}Pricing{% endblock %}
+{% block page %}<section class="section"><h1 style="font-size:36px;letter-spacing:-.02em">Pricing</h1>
+<p class="lead">Clear plan value, no countdowns. Prices and allowances are <b>provisional assumptions during the pilot</b> and may change before general launch; we will tell you before any change affects you.</p>
+<div class="cols4">{% for key in ['demo','free','pro','business'] %}{% set p = plans[key] %}<div class="card plan {{ 'pro' if key=='pro' }}">{% if key=='pro' %}<span class="ribbon">For teams</span>{% endif %}<h2>{{ p.name }}</h2>
+<div class="price">{% if p.price is none %}{{ 'Free' if key=='demo' else 'Let’s talk' }}{% elif p.price == 0 %}£0 <small>during pilot</small>{% else %}£{{ '%.2f'|format(p.price/100) }} <small>/ month</small>{% endif %}</div>
+<div class="muted">{{ p.blurb }}</div><ul><li>{{ icon('check') }}{{ p.tickets }}</li><li>{{ icon('check') }}{{ p.seats }}</li>{% for f in p.features %}<li>{{ icon('check') }}{{ f }}</li>{% endfor %}</ul>
+{% if key=='demo' %}<a class="btn" style="width:100%;justify-content:center" href="{{ url_for('demo') }}">Open the demo</a>{% elif key=='business' %}<a class="btn" style="width:100%;justify-content:center" href="{{ url_for('contact', kind='sales') }}">Contact sales</a>{% else %}<a class="btn {{ 'primary' if key=='pro' }}" style="width:100%;justify-content:center" href="{{ url_for('login', tab='signup') }}">{{ 'Start ' ~ trial_days ~ '-day trial' if key=='pro' else 'Start your workspace' }}</a>{% endif %}</div>{% endfor %}</div>
+<div class="card card-b" style="margin-top:24px"><h2>Terms in plain language</h2><ul class="muted">
+<li><b>Trial:</b> the Team plan can be tried for {{ trial_days }} days without a card. At the end you return to Starter unless you subscribe.</li>
+<li><b>Renewal:</b> in this version Team is a one-month pass. It does <b>not</b> renew automatically and you are never charged again unless you buy another month. Recurring subscriptions are planned.</li>
+<li><b>Limits:</b> ticket allowances are shown for planning but are <b>not yet enforced</b>. Each plan currently has one user; team invitations are coming.</li>
+<li><b>Payments:</b> in this version checkout runs in a clearly labelled demo mode unless a Stripe test key is configured. Recurring billing through Stripe is planned for Stage 4.</li>
+<li><b>Offers:</b> {% if launch_offer.enabled %}{{ launch_offer.percent }}% off your first {{ launch_offer.periods }} monthly periods for eligible new organisations, then standard price.{% else %}no promotional offers are currently running.{% endif %}</li>
+<li><b>One-off services</b> such as assisted data preparation are quoted separately and are not part of a subscription.</li></ul></div></section>{% endblock %}

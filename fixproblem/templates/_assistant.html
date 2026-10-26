@@ -1,0 +1,9 @@
+{# Assistant widget: included on every page (website and app) #}
+<button class="ai-fab" id="ai-fab" aria-expanded="false" aria-controls="ai-panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Ask Fixproblem</button>
+<section class="ai-panel" id="ai-panel" role="dialog" aria-label="Fixproblem assistant">
+<div class="ai-head"><img src="{{ url_for('static', filename='brand/icon.svg') }}" alt=""><div><b>Fixproblem assistant</b><small>{{ 'Answers from our help docs and this workspace' if role else 'Answers from our help docs' }}</small></div>
+<button class="icon-btn" id="ai-close" aria-label="Close assistant">✕</button></div>
+<div class="ai-msgs" id="ai-msgs" aria-live="polite"><div class="ai-msg bot">Hi! I can explain how Fixproblem works{{ ', answer questions about this workspace and help you do things like assigning an issue or exporting a report' if role }}. What would you like to do?</div></div>
+<div class="ai-chips" id="ai-chips">{% for s in (['What should we fix first?', 'What changed recently?', 'How do I upload my tickets?', 'Which issues are unassigned?'] if role else ['What does Fixproblem do?', 'Can I try it with sample data?', 'How much does it cost?', 'Does it replace our helpdesk?']) %}<button class="ai-chip" type="button">{{ s }}</button>{% endfor %}</div>
+<div class="ai-note">The assistant can make mistakes and never acts without your click. <a class="link" href="{{ url_for('feedback') if role else url_for('contact') }}">Talk to a person</a></div>
+<form class="ai-form" id="ai-form"><label class="sr-only" for="ai-q">Your question</label><input id="ai-q" type="text" placeholder="Ask a question…" autocomplete="off" maxlength="500"><button class="btn primary">Send</button></form></section>

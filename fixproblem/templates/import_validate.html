@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Validate import{% endblock %}{% block crumbs %}Imports &amp; integrations{% endblock %}
+{% block content %}<div class="steps"><span class="done">1 Upload</span><span class="done">2 Map columns</span><span class="on">3 Validate</span><span>4 Confirm</span><span>5 Analyse</span></div>
+<h1>Check before importing</h1><p class="sub">{{ name }}: this is what <b>would</b> happen. Nothing has been saved yet.</p>
+<div class="grid g4"><div class="card stat"><div class="l">Will be imported</div><div class="v" style="color:var(--green)">{{ res.accepted }}</div></div>
+<div class="card stat"><div class="l">Duplicates (already imported)</div><div class="v">{{ res.duplicates }}</div><div class="d muted">skipped safely</div></div>
+<div class="card stat"><div class="l">Rejected rows</div><div class="v" style="color:{{ 'var(--amber)' if res.rejected_count else 'inherit' }}">{{ res.rejected_count }}</div></div>
+<div class="card stat"><div class="l">Timezone</div><div class="v" style="font-size:18px">{{ tz }}</div></div></div>
+{% if res.rejected %}<div class="card" style="margin-top:16px"><div class="card-h"><h2>Why rows were rejected</h2><a class="right link" href="{{ url_for('import_errors', token=token) }}">Download error report (CSV)</a></div><table><tbody>
+{% for line, why in res.rejected[:12] %}<tr><td class="nowrap">Line {{ line }}</td><td>{{ why }}</td><td class="muted small">{{ 'Use a date like 2026-09-01 09:30 or change the date order.' if 'timestamp' in why else 'Fill in this required value.' }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+<form method="post" action="{{ url_for('import_wizard') }}" style="margin-top:16px"><input type="hidden" name="token" value="{{ token }}"><input type="hidden" name="name" value="{{ name }}"><input type="hidden" name="step" value="confirm"><input type="hidden" name="date_order" value="{{ date_order }}"><input type="hidden" name="tz" value="{{ tz }}">
+{% for f, h in mapping.items() %}<input type="hidden" name="map_{{ f }}" value="{{ h }}">{% endfor %}
+{% if res.accepted %}<button class="btn primary">Confirm: import {{ res.accepted }} tickets and analyse</button>{% else %}<p class="muted">There is nothing new to import.</p>{% endif %} <a class="btn ghost" href="{{ url_for('import_view') }}">Cancel</a></form>{% endblock %}

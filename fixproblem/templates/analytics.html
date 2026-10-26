@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block title %}Owner analytics{% endblock %}
+{% block crumbs %}Owner analytics{% endblock %}
+{% block content %}<h1>Owner analytics</h1><p class="sub">Sign-ups, conversion, revenue and product usage. Visible only to the platform admin. Passwords are never shown or stored in readable form.</p>
+<div class="kpi-row"><div class="card stat"><div class="l">Registered users</div><div class="v">{{ a.users }}</div></div>
+<div class="card stat"><div class="l">On trial</div><div class="v">{{ a.by_plan.get('trial', 0) }}</div><div class="d muted">{{ a.trials_started }} trials started</div></div>
+<div class="card stat"><div class="l">Paying (Pro)</div><div class="v">{{ a.by_plan.get('pro', 0) }}</div><div class="d muted">{{ '%.0f'|format(100*a.conversion) }}% conversion</div></div>
+<div class="card stat"><div class="l">Monthly recurring revenue</div><div class="v">{{ gbp(a.mrr_pence) }}</div><div class="d muted">{{ gbp(a.revenue_pence) }} collected to date</div></div>
+<div class="card stat"><div class="l">Last 7 days</div><div class="v">{{ a.actions_7d }}</div><div class="d muted">actions · {{ a.guests_7d }} guests</div></div></div>
+<div class="grid g2" style="margin-top:16px"><div class="card"><div class="card-h"><h2>Recent sign-ups</h2></div><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Plan</th><th>Joined</th><th>Last sign-in</th><th>Emails OK</th></tr></thead><tbody>
+{% for u in a.recent_users %}<tr><td>{{ u.name }}</td><td class="small">{{ u.email }}</td><td><span class="pill {{ 'accent' if u.plan != 'free' }}">{{ u.plan }}</span></td><td class="small muted">{{ u.created_at[:10] }}</td><td class="small muted">{{ (u.last_login or '—')[:16] }}</td><td>{{ '✓' if u.marketing_ok else '' }}</td></tr>
+{% else %}<tr><td colspan="6" class="muted">No sign-ups yet.</td></tr>{% endfor %}</tbody></table></div></div>
+<div class="card"><div class="card-h"><h2>Most used pages</h2></div><table><tbody>{% for p in a.top_pages %}<tr><td class="small">{{ p.path }}</td><td class="num">{{ p.n }}</td></tr>{% endfor %}</tbody></table></div></div>
+<div class="card" style="margin-top:16px"><div class="card-h"><h2>Live activity</h2><span class="right">every request by users and guests</span></div><div class="tbl-wrap"><table><thead><tr><th>When (UTC)</th><th>Who</th><th>Action</th><th>Page</th><th class="num">Result</th></tr></thead><tbody>
+{% for r in a.recent_activity %}<tr><td class="small nowrap">{{ r.at }}</td><td class="small">{{ r.actor }}</td><td><span class="pill">{{ r.method }}</span> {{ r.action }}</td><td class="small"><div class="trunc" style="max-width:360px">{{ r.path }}</div></td><td class="num small">{{ r.status }}</td></tr>{% endfor %}</tbody></table></div></div>{% endblock %}

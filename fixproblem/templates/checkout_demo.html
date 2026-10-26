@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% from "_ui.html" import icon %}{% block title %}Checkout{% endblock %}
+{% block body %}<div class="card auth wide"><span class="logo">S</span><h1>Subscribe to Fixproblem Pro</h1>
+<div class="offer" style="background:var(--amber-soft);color:var(--amber)">{{ icon('alert') }}<span><b>Demo checkout.</b> No payment provider is configured, so no card is needed and nothing is charged. Set <code>STRIPE_SECRET_KEY</code> to use real Stripe Checkout.</span></div>
+<table><tbody><tr><td>Fixproblem Pro, 1 month</td><td class="num">{{ full }}</td></tr>
+{% if discount %}<tr><td>Sign-up offer ({{ discount }}%)</td><td class="num" style="color:var(--green)">−£{{ '%.2f'|format(full[1:]|float - amount[1:]|float) }}</td></tr>{% endif %}
+<tr><td><b>Total today</b></td><td class="num"><b>{{ amount }}</b></td></tr></tbody></table>
+<form method="post" style="margin-top:18px"><button class="btn primary" style="width:100%;justify-content:center;height:40px">{{ icon('shield') }}Confirm demo payment of {{ amount }}</button></form>
+<p class="muted small" style="text-align:center"><a class="link" href="{{ url_for('billing') }}">Cancel and go back</a></p></div>{% endblock %}

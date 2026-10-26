@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" role="img" aria-label="Fixproblem">
+  <!-- Two offset message shapes; the check mark is cut out of the front message (negative space). -->
+  <defs><mask id="fp-cut"><rect width="64" height="64" fill="#fff"/><path d="M27.5 36.5l6.5 6.5 14-14" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></mask></defs>
+  <path d="M8 10h30a6 6 0 0 1 6 6v14a6 6 0 0 1-6 6H22l-9 8v-8H8a6 6 0 0 1-6-6V16a6 6 0 0 1 6-6z" fill="currentColor" opacity=".45"/>
+  <path mask="url(#fp-cut)" d="M26 24h30a6 6 0 0 1 6 6v14a6 6 0 0 1-6 6h-5v8l-9-8H26a6 6 0 0 1-6-6V30a6 6 0 0 1 6-6z" fill="currentColor"/>
+  <text x="74" y="43" font-family="Inter, -apple-system, Segoe UI, Roboto, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="-0.5" fill="currentColor">Fixproblem</text>
+</svg>

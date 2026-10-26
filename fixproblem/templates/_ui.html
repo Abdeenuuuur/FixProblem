@@ -1,0 +1,64 @@
+{% macro icon(name) -%}
+{%- set p = {
+ 'home':'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+ 'inbox':'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5h13l3.5 7v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/>',
+ 'layers':'<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>',
+ 'alert':'<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+ 'check':'<path d="M20 6 9 17l-5-5"/>',
+ 'upload':'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5M12 3v12"/>',
+ 'settings':'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+ 'search':'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+ 'moon':'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+ 'logout':'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+ 'download':'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/>',
+ 'refresh':'<path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5"/>',
+ 'zap':'<path d="M13 2 3 14h9l-1 8 10-12h-9z"/>',
+ 'shield':'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+ 'users':'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
+ 'bell':'<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
+ 'chart':'<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/>',
+ 'arrow':'<path d="M5 12h14M13 6l6 6-6 6"/>',
+ 'brain':'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.9.6A3 3 0 0 1 4 17a3 3 0 0 1-.9-5.6A2.5 2.5 0 0 1 4.5 7 2.5 2.5 0 0 1 9.5 2zM14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.9.6A3 3 0 0 0 20 17a3 3 0 0 0 .9-5.6A2.5 2.5 0 0 0 19.5 7 2.5 2.5 0 0 0 14.5 2z"/>',
+} -%}
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{ p[name]|safe }}</svg>
+{%- endmacro %}
+
+{% macro sparkline(values, w=110, h=28, color="var(--accent)") -%}
+{%- set mx = (values|max) if values|max > 0 else 1 -%}
+{%- set step = w / ((values|length) - 1 if values|length > 1 else 1) -%}
+<svg width="{{ w }}" height="{{ h }}" viewBox="0 0 {{ w }} {{ h }}" role="img" aria-label="weekly ticket volume">
+<polyline fill="none" stroke="{{ color }}" stroke-width="1.8" stroke-linejoin="round" points="{% for v in values %}{{ (loop.index0 * step)|round(1) }},{{ (h - 2 - (v / mx) * (h - 4))|round(1) }} {% endfor %}"/></svg>
+{%- endmacro %}
+
+{% macro bars(values, color="var(--accent)", w=520, h=130) -%}
+{%- set mx = (values|max) if values|max > 0 else 1 -%}{%- set bw = w / values|length -%}
+<svg width="100%" viewBox="0 0 {{ w }} {{ h + 18 }}" role="img" aria-label="tickets per week">
+{% for v in values %}<rect x="{{ (loop.index0 * bw + 4)|round(1) }}" y="{{ (h - (v / mx) * h)|round(1) }}" width="{{ (bw - 8)|round(1) }}" height="{{ ((v / mx) * h)|round(1) }}" rx="4" fill="{{ color }}" opacity="{{ 0.35 + 0.65 * loop.index / values|length }}"/>
+<text x="{{ (loop.index0 * bw + bw / 2)|round(1) }}" y="{{ h + 14 }}" font-size="10" text-anchor="middle" fill="var(--muted)">{{ v }}</text>{% endfor %}</svg>
+{%- endmacro %}
+
+{% macro stacked(series, labels, colours, w=760, h=200) -%}
+{%- set n = labels|length -%}{%- set totals = [] -%}
+{%- for i in range(n) %}{% set _ = totals.append(series.values()|map(attribute=i)|sum) %}{% endfor -%}
+{%- set mx = (totals|max) if totals|max > 0 else 1 -%}{%- set bw = w / n -%}
+<svg width="100%" viewBox="0 0 {{ w }} {{ h + 24 }}" role="img" aria-label="tickets per week by category">
+{% for g in [0.25, 0.5, 0.75, 1] %}<line x1="0" x2="{{ w }}" y1="{{ h - g*h }}" y2="{{ h - g*h }}" stroke="var(--line)"/>{% endfor %}
+{% for i in range(n) %}{% set ns = namespace(y=h) %}{% for cat, vals in series.items() %}{% set bh = (vals[i] / mx) * (h - 8) %}
+<rect x="{{ (i*bw + bw*0.2)|round(1) }}" y="{{ (ns.y - bh)|round(1) }}" width="{{ (bw*0.6)|round(1) }}" height="{{ bh|round(1) }}" fill="{{ colours.get(cat, '#999') }}"><title>{{ labels[i] }} · {{ cat }}: {{ vals[i] }}</title></rect>{% set ns.y = ns.y - bh %}{% endfor %}
+<text x="{{ (i*bw + bw/2)|round(1) }}" y="{{ h + 16 }}" font-size="10.5" text-anchor="middle" fill="var(--muted)">{{ labels[i] }}</text>{% endfor %}</svg>
+{%- endmacro %}
+
+{% macro avatar(name, role=None) -%}
+{%- if name %}<span class="avatar {{ role or name }}" title="{{ name }}">{{ name[0]|upper }}</span>{% else %}<span class="avatar none" title="Unassigned">–</span>{% endif -%}
+{%- endmacro %}
+
+{% macro status_badge(s) -%}<span class="status {{ s }}"><i></i>{{ s|capitalize }}</span>{%- endmacro %}
+
+{% macro cat_badge(cat, colours) -%}<span class="pill"><span class="dot" style="background:{{ colours.get(cat, '#999') }}"></span>{{ cat|pretty }}</span>{%- endmacro %}
+
+{% macro tickets_table(tickets, colours) -%}
+<div class="tbl-wrap"><table><thead><tr><th>Ticket</th><th>Message</th><th>Category</th><th>Customer</th><th class="num">Received</th></tr></thead><tbody>
+{% for t in tickets %}<tr><td class="nowrap"><b>{{ t.ticket_id }}</b><div class="muted small">{{ t.channel }}{% if t.customer_tier == 'business' %} · <span style="color:var(--amber)">business</span>{% endif %}</div></td>
+<td><div class="trunc">{{ t.body }}</div></td><td>{{ cat_badge(t.pred_category, colours) }}</td><td class="small nowrap">{{ t.customer_email|email }}</td>
+<td class="num small muted nowrap">{{ t.created_at[5:16] }}</td></tr>{% endfor %}</tbody></table></div>
+{%- endmacro %}

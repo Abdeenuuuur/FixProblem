@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Give feedback{% endblock %}{% block crumbs %}Give feedback{% endblock %}
+{% block content %}<h1>Give feedback or get help</h1><p class="sub">Tell us what went wrong or what would help. You’ll get a reference number.</p>
+{% if sent %}<div class="card card-b" style="max-width:640px"><span class="pill green">Received</span><p>Thanks. Your reference is <b>{{ sent }}</b>. We reply by email where we have one; there is no staffed live chat during the pilot.</p><a class="btn sm" href="{{ url_for('dashboard') }}">Back to overview</a></div>
+{% else %}<form method="post" enctype="multipart/form-data" class="card card-b" style="max-width:640px"><input type="hidden" name="page" value="{{ form.page if form else page }}">
+<label class="field"><span>Category</span><select name="category"><option>Something isn’t working</option><option>Import problem</option><option>Question about results</option><option>Billing</option><option>Idea or feedback</option></select></label>
+<label class="field"><span>What happened?</span><textarea name="description" rows="5" required minlength="10">{{ form.description if form else '' }}</textarea></label>
+<label class="field"><span>Screenshot (optional)</span><input type="file" name="screenshot" accept="image/png,image/jpeg"><small>PNG or JPG, up to 2 MB. Check it doesn’t show customer data you don’t want to share.</small></label>
+<label class="check"><input type="checkbox" name="diagnostics" value="1"> <span>Attach diagnostics: the page you were on, your role and plan, and your browser version. <b>Ticket text is never included.</b></span></label>
+<button class="btn primary">Send</button></form>{% endif %}{% endblock %}

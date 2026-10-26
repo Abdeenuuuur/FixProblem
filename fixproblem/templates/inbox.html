@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% from "_ui.html" import icon, cat_badge %}{% block title %}Inbox{% endblock %}
+{% block crumbs %}Tickets{% endblock %}
+{% block content %}<h1>Tickets</h1><p class="sub">{{ "{:,}".format(total) }} tickets{% if q %} matching “{{ q }}”{% endif %}. Press <kbd>/</kbd> to search.</p>
+<form class="filters" method="get"><input type="search" name="q" value="{{ q }}" placeholder="Search tickets…">
+<select name="category" onchange="this.form.submit()"><option value="">All categories</option>{% for c in cats %}<option value="{{ c }}" {{ 'selected' if c==cat }}>{{ c|pretty }}</option>{% endfor %}</select>
+<select name="tier" onchange="this.form.submit()"><option value="">All tiers</option>{% for t in ['standard','premium','business'] %}<option {{ 'selected' if t==tier }}>{{ t }}</option>{% endfor %}</select>
+<label class="pill" style="cursor:pointer"><input type="checkbox" name="review" value="1" {{ 'checked' if review }} onchange="this.form.submit()"> Needs review</label>
+{% if q or cat or tier or review %}<a class="btn sm ghost" href="{{ url_for('inbox') }}">Clear</a>{% endif %}</form>
+<div class="card tbl-wrap"><table><thead><tr><th>Ticket</th><th>Message</th><th>Category</th><th>Customer</th><th class="num">AI confidence</th><th class="num">Received</th></tr></thead><tbody>
+{% for t in rows %}<tr><td class="nowrap"><b>{{ t.ticket_id }}</b><div class="muted small">{{ t.channel }}{% if t.customer_tier != 'standard' %} · {{ t.customer_tier }}{% endif %}</div></td>
+<td><div class="trunc">{{ t.body }}</div></td><td>{{ cat_badge(t.pred_category, colours) }}{% if t.needs_review %} <span class="pill amber">review</span>{% endif %}</td>
+<td class="small nowrap">{{ t.customer_email|email }}</td><td class="num small">{{ '%.0f'|format(100*(t.pred_confidence or 0)) }}%</td><td class="num small muted nowrap">{{ t.created_at[5:16] }}</td></tr>
+{% else %}<tr><td colspan="6" class="muted" style="text-align:center;padding:40px">No tickets match these filters.</td></tr>{% endfor %}</tbody></table></div>
+{% if pages > 1 %}<div class="filters" style="margin-top:14px;justify-content:space-between"><span class="muted small">Page {{ page }} of {{ pages }}</span><span>
+{% if page > 1 %}<a class="btn sm" href="{{ url_for('inbox', q=q, category=cat, tier=tier, review=review, page=page-1) }}">← Previous</a>{% endif %}
+{% if page < pages %}<a class="btn sm" href="{{ url_for('inbox', q=q, category=cat, tier=tier, review=review, page=page+1) }}">Next →</a>{% endif %}</span></div>{% endif %}
+{% endblock %}

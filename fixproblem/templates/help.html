@@ -1,0 +1,17 @@
+{% extends ("base.html" if role else "public/_layout.html") %}{% from "_ui.html" import icon %}{% block title %}Help &amp; tutorials{% endblock %}
+{% block crumbs %}Help &amp; tutorials{% endblock %}
+{% macro body() %}<h1>Help &amp; tutorials</h1><p class="sub">Guides for every step, from preparing a CSV to exporting your data.</p>
+<form method="get" class="filters"><input type="search" name="q" value="{{ q }}" placeholder="Search help articles…" aria-label="Search help"><button class="btn sm">Search</button>{% if q %}<a class="btn sm ghost" href="{{ url_for('help_centre') }}">Clear</a>{% endif %}</form>
+<div class="cols3">{% for slug, title, section, text in articles %}<a class="card feature" href="{{ url_for('help_article', slug=slug) }}"><div class="muted small">{{ section }}</div><h3>{{ title }}</h3><p class="small">{{ text.strip().split('\n')[0][:140] }}…</p></a>{% else %}<p class="muted">No articles match “{{ q }}”. Try another word, or <a class="link" href="{{ url_for('contact') }}">ask us</a>.</p>{% endfor %}</div>
+<div class="card card-b" id="tutorial" style="margin-top:20px"><h2>Video tutorials</h2>
+<p class="muted small" style="margin-top:0">Real recordings of the app with on-screen step captions. Each video is followed by the same steps in text.</p>
+<div class="cols3">{% for vid, title, steps in [
+ ('tour', 'Product tour (70 s)', ['Know what to fix next', 'Try it without an account', 'See what changed', 'Inspect the evidence', 'Investigate one issue', 'Track work on the board', 'Ask the assistant', 'Share a management report']),
+ ('import', 'Import your tickets (55 s)', ['Open Imports & integrations', 'Map your columns', 'Check before importing', 'Confirm and analyse', 'Explore the result']),
+ ('investigate', 'Investigate and act (60 s)', ['Start from what deserves attention', 'Assign an owner and status', 'Record what the team confirmed', 'Teach the model', 'Compare before and after a fix', 'Export for your manager'])] %}
+<div><video controls preload="none" poster="{{ url_for('static', filename='videos/' ~ vid ~ '.jpg') }}" style="width:100%;border-radius:10px;border:1px solid var(--line)" aria-label="{{ title }}"><source src="{{ url_for('static', filename='videos/' ~ vid ~ '.mp4') }}" type="video/mp4"></video>
+<h3 style="margin:10px 0 6px;font-size:15px">{{ title }}</h3><ol class="small" style="margin:0;padding-left:18px">{% for s in steps %}<li>{{ s }}</li>{% endfor %}</ol></div>{% endfor %}</div>
+{% if role %}<p style="margin-bottom:0"><a class="btn sm" href="{{ url_for('tour') }}">Replay the in-app tutorial</a></p>{% endif %}</div>
+<h2 style="margin-top:28px">Frequently asked questions</h2>{% for qq, a in faqs %}<details class="faq"><summary>{{ qq }}</summary><p>{{ a }}</p></details>{% endfor %}
+<p class="muted small" style="margin-top:20px">Can’t find an answer? {% if role %}<a class="link" href="{{ url_for('feedback') }}">Send a support request</a>{% else %}<a class="link" href="{{ url_for('contact') }}">Contact us</a>{% endif %}. There is no staffed live chat during the pilot.</p>{% endmacro %}
+{% block content %}{{ body() }}{% endblock %}{% block page %}<div class="section">{{ body() }}</div>{% endblock %}

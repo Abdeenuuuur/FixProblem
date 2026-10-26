@@ -1,0 +1,13 @@
+{% from "_ui.html" import icon %}
+{% set slides = [
+ ('zap', 'Welcome to Fixproblem', 'Fixproblem analyses support tickets you import and shows which problems keep coming back, so you know what to fix next. Start with sample data or upload your own tickets.'),
+ ('home', 'Your dashboard', 'Start here each morning. Red alerts mean a problem is suddenly spiking compared with the last 8 weeks. Click “View tickets” to see the exact messages behind it.'),
+ ('layers', 'The issue board', 'The AI groups similar tickets into issues. Move them from New to Investigating to Resolved, assign an owner and discuss the fix in comments, like a lightweight Linear.'),
+ ('check', 'Teach the AI', 'When the AI is unsure about a ticket it lands in the Review queue. One click sets the right category, and the model learns from your answer at the next retrain.'),
+ ('search', 'Move fast', 'Press ⌘K (Ctrl+K on Windows) to search anything or jump to any page. The Team plan adds Slack/Teams alerts, report exports and importing your own data. Help & tutorials is always in the sidebar.'),
+] %}
+<div class="tour-back" role="dialog" aria-modal="true" aria-label="Getting started tour"><div class="tour">
+{% for ic, title, text in slides %}<div class="slide"><div class="art"><div class="big">{{ icon(ic) }}</div></div>
+<div class="txt"><div class="muted small" style="margin-bottom:6px">Step {{ loop.index }} of {{ slides|length }}</div><h2>{{ title }}</h2><p>{{ text }}</p></div></div>{% endfor %}
+<div class="foot"><button class="btn ghost sm" id="tour-skip">Skip tour</button><div class="dots" style="margin-left:8px">{% for _ in slides %}<i></i>{% endfor %}</div>
+<div class="right"><button class="btn sm" id="tour-prev">Back</button><button class="btn sm primary" id="tour-next">Next</button></div></div></div></div>

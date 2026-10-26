@@ -1,0 +1,162 @@
+{
+  "dataset": {
+    "tickets": 1981,
+    "origin": "synthetic, data/generate_sample_data.py, seed 42"
+  },
+  "classification": {
+    "train_size": 1386,
+    "test_size": 595,
+    "accuracy": 0.9933,
+    "macro_f1": 0.9938,
+    "majority_baseline_accuracy": 0.3025,
+    "agent_tag_accuracy": 0.9328,
+    "sent_to_review": 19,
+    "auto_routed_accuracy": 0.9965,
+    "per_class_f1": {
+      "account_access": 1.0,
+      "billing": 1.0,
+      "cancellation": 0.992,
+      "connectivity": 0.992,
+      "delivery": 1.0,
+      "technical_app": 0.98
+    }
+  },
+  "issue_discovery": {
+    "true_issues": 14,
+    "clusters_found": 34,
+    "homogeneity": 0.9081,
+    "completeness": 0.6984,
+    "v_measure": 0.7895
+  },
+  "emerging_detection": {
+    "pre_release_runs": 12,
+    "pre_release_runs_with_false_alarm": 0,
+    "days_to_first_alert": 5,
+    "crash_tickets_before_alert": 10,
+    "final_alert_ticket_precision": 0.9718,
+    "final_alert_ticket_recall": 1.0,
+    "final_alerts_total": 1,
+    "daily": [
+      {
+        "day": 1,
+        "crash_tickets_so_far": 1,
+        "alerted": false
+      },
+      {
+        "day": 2,
+        "crash_tickets_so_far": 2,
+        "alerted": false
+      },
+      {
+        "day": 3,
+        "crash_tickets_so_far": 3,
+        "alerted": false
+      },
+      {
+        "day": 4,
+        "crash_tickets_so_far": 7,
+        "alerted": false
+      },
+      {
+        "day": 5,
+        "crash_tickets_so_far": 10,
+        "alerted": true
+      },
+      {
+        "day": 6,
+        "crash_tickets_so_far": 17,
+        "alerted": false
+      },
+      {
+        "day": 7,
+        "crash_tickets_so_far": 22,
+        "alerted": false
+      },
+      {
+        "day": 8,
+        "crash_tickets_so_far": 25,
+        "alerted": false
+      },
+      {
+        "day": 9,
+        "crash_tickets_so_far": 33,
+        "alerted": true
+      },
+      {
+        "day": 10,
+        "crash_tickets_so_far": 39,
+        "alerted": true
+      },
+      {
+        "day": 11,
+        "crash_tickets_so_far": 46,
+        "alerted": true
+      },
+      {
+        "day": 12,
+        "crash_tickets_so_far": 49,
+        "alerted": true
+      },
+      {
+        "day": 13,
+        "crash_tickets_so_far": 59,
+        "alerted": true
+      },
+      {
+        "day": 14,
+        "crash_tickets_so_far": 65,
+        "alerted": true
+      }
+    ],
+    "weekly_pre_release": [
+      {
+        "cutoff": "2026-05-31",
+        "alerts": 0
+      },
+      {
+        "cutoff": "2026-06-07",
+        "alerts": 0
+      },
+      {
+        "cutoff": "2026-06-14",
+        "alerts": 0
+      },
+      {
+        "cutoff": "2026-06-21",
+        "alerts": 0
+      },
+      {
+        "cutoff": "2026-06-28",
+        "alerts": 0
+      },
+      {
+        "cutoff": "2026-07-05",
+        "alerts": 0
+      },
+      {
+        "cutoff": "2026-07-12",
+        "alerts": 0
+      },
+      {
+        "cutoff": "2026-07-19",
+        "alerts": 0
+      },
+      {
+        "cutoff": "2026-07-26",
+        "alerts": 0
+      },
+      {
+        "cutoff": "2026-08-02",
+        "alerts": 0
+      },
+      {
+        "cutoff": "2026-08-09",
+        "alerts": 0
+      },
+      {
+        "cutoff": "2026-08-16",
+        "alerts": 0
+      }
+    ]
+  }
+}

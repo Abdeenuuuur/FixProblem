@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Import complete{% endblock %}{% block crumbs %}Imports &amp; integrations{% endblock %}
+{% block content %}<div class="steps"><span class="done">1 Upload</span><span class="done">2 Map columns</span><span class="done">3 Validate</span><span class="done">4 Confirm</span><span class="{{ 'done' if analysed else 'on' }}">5 Analyse</span></div>
+<h1>Import finished</h1><div class="grid g2e"><div class="card card-b"><h2><span class="pill green">Data imported</span></h2><p>{{ res.accepted }} tickets saved · {{ res.duplicates }} duplicates skipped · {{ res.rejected_count }} rejected.</p></div>
+<div class="card card-b"><h2>{% if analysed %}<span class="pill green">Analysis complete</span>{% else %}<span class="pill">No analysis needed</span>{% endif %}</h2>
+{% if analysed %}<p>{{ "{:,}".format(analysed.tickets) }} tickets analysed into {{ analysed.issues }} issues; {{ analysed.alerts }} emerging alert(s); {{ analysed.needs_review }} tickets need review.</p>{% else %}<p class="muted">No new tickets, so the existing analysis is unchanged.</p>{% endif %}</div></div>
+<p style="margin-top:16px"><a class="btn primary" href="{{ url_for('dashboard') }}">See the overview</a> <a class="btn" href="{{ url_for('review') }}">Check uncertain tickets</a></p>{% endblock %}

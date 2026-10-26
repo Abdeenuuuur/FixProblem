@@ -1,0 +1,5 @@
+{% extends "public/_layout.html" %}{% block title %}Service status{% endblock %}
+{% block page %}<article class="doc"><h1>Service status</h1>
+<p>Fixproblem does not yet have automated external monitoring, so this page does <b>not</b> show a live “operational” indicator. It shows information we can actually verify.</p>
+<table><tbody><tr><td>This page was served</td><td>Yes. The web application is responding.</td></tr><tr><td>Latest successful import and analysis</td><td>{{ last[:16] ~ ' UTC' if last else 'None yet' }}</td></tr><tr><td>Recorded incidents</td><td>None recorded</td></tr></tbody></table>
+<p class="muted">A machine-readable health check is available at <code>/healthz</code>.</p></article>{% endblock %}

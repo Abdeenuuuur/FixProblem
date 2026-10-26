@@ -1,0 +1,4 @@
+{% extends ("base.html" if role else "public/_layout.html") %}{% block title %}{{ art[1] }}{% endblock %}{% block crumbs %}Help &amp; tutorials{% endblock %}
+{% macro body() %}<p class="muted small"><a class="link" href="{{ url_for('help_centre') }}">← Help centre</a> · {{ art[2] }}</p><h1>{{ art[1] }}</h1>
+<div class="card card-b" style="max-width:760px">{% for p in paragraphs %}<p>{{ p|safe }}</p>{% endfor %}</div>{% endmacro %}
+{% block content %}{{ body() }}{% endblock %}{% block page %}<article class="doc">{{ body() }}</article>{% endblock %}

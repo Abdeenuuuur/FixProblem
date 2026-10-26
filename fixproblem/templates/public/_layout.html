@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block body %}<header class="site-head"><a href="{{ url_for('landing') }}" aria-label="Fixproblem home"><img class="logo-img logo-light" src="{{ url_for('static', filename='brand/wordmark.svg') }}" alt="Fixproblem"><img class="logo-img logo-dark" src="{{ url_for('static', filename='brand/wordmark-dark.svg') }}" alt="Fixproblem"></a>
+<nav aria-label="Site"><a href="{{ url_for('landing') }}#product">Product</a><a href="{{ url_for('landing') }}#how">How it works</a><a href="{{ url_for('pricing') }}">Pricing</a><a href="{{ url_for('help_centre') }}">Resources</a></nav>
+<div class="right"><button class="btn ghost sm" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>{% if role %}<a class="btn sm" href="{{ url_for('dashboard') }}">Open app</a>{% else %}<a class="btn sm ghost" href="{{ url_for('login') }}">Sign in</a>{% endif %}<a class="btn sm primary" href="{{ url_for('login', tab='signup') }}">Start your workspace</a></div></header>
+<main id="main">{% block page %}{% endblock %}</main>
+<footer class="site-foot"><div class="inner"><div><img class="logo-img logo-light" src="{{ url_for('static', filename='brand/wordmark.svg') }}" alt="Fixproblem"><img class="logo-img logo-dark" src="{{ url_for('static', filename='brand/wordmark-dark.svg') }}" alt="Fixproblem"><p class="muted small" style="margin-top:10px">Know what to fix next.<br>A portfolio project by Abdennour Al Ayoubi.</p></div>
+<div><h4>Product</h4><a href="{{ url_for('landing') }}#product">Features</a><a href="{{ url_for('demo') }}">Demo</a><a href="{{ url_for('pricing') }}">Pricing</a><a href="{{ url_for('changelog') }}">Changelog</a></div>
+<div><h4>Resources</h4><a href="{{ url_for('help_article', slug='getting-started') }}">Getting started</a><a href="{{ url_for('csv_template') }}">CSV template</a><a href="{{ url_for('help_centre') }}#tutorial">Tutorials</a><a href="{{ url_for('landing') }}#faq">FAQs</a><a href="{{ url_for('evaluation') }}">Evaluation</a></div>
+<div><h4>Company</h4><a href="{{ url_for('about') }}">About</a><a href="{{ url_for('contact') }}">Contact</a></div>
+<div><h4>Trust</h4><a href="{{ url_for('privacy') }}">Privacy</a><a href="{{ url_for('terms') }}">Terms</a><a href="{{ url_for('security') }}">Security information</a><a href="{{ url_for('status') }}">Service status</a></div></div></footer>
+
+{% endblock %}

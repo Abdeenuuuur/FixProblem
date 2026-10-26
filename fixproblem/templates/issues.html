@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% from "_ui.html" import icon, avatar, status_badge, cat_badge, sparkline %}{% block title %}Issues{% endblock %}
+{% block crumbs %}Issues{% endblock %}
+{% block actions %}<div class="seg"><a href="{{ url_for('issues', view='board') }}" class="{{ 'on' if view=='board' }}">Board</a><a href="{{ url_for('issues', view='list') }}" class="{{ 'on' if view=='list' }}">List</a></div>{% endblock %}
+{% block content %}<h1>Issues</h1><p class="sub">Recurring problems found by the AI, ranked by priority (volume × severity × customer tier × growth).</p>
+{% if view == 'board' %}<div class="board">{% for s, items in columns.items() %}<div class="col"><div class="col-h">{{ status_badge(s) }}<span class="n">{{ items|length }}</span></div>
+{% for i in items %}<a class="issue-card" href="{{ url_for('issue_detail', issue_id=i.issue_id) }}"><div class="t">{{ i.label }}</div>
+<div class="m">{% if i.emerging %}<span class="pill red">emerging</span>{% endif %}<span><span class="dot" style="background:{{ colours.get(i.category) }}"></span> {{ i.category|pretty }}</span><span>{{ i.size }}</span>{{ avatar(i.owner) }}</div></a>
+{% else %}<div class="muted small" style="padding:8px">Nothing here</div>{% endfor %}</div>{% endfor %}</div>
+{% else %}<div class="card tbl-wrap"><table><thead><tr><th>Issue</th><th>Status</th><th>Category</th><th class="num">Tickets</th><th class="num">Last 14d</th><th class="num">Growth</th><th class="num">Priority</th><th>Owner</th></tr></thead><tbody>
+{% for i in issues %}<tr class="row-link" data-href="{{ url_for('issue_detail', issue_id=i.issue_id) }}"><td><b style="font-weight:550">{{ i.label }}</b>{% if i.emerging %} <span class="pill red">emerging</span>{% endif %}</td><td>{{ status_badge(i.status) }}</td>
+<td>{{ cat_badge(i.category, colours) }}</td><td class="num">{{ i.size }}</td><td class="num">{{ i.recent }}</td><td class="num">{{ i.growth }}×</td>
+<td class="num"><div style="display:flex;align-items:center;gap:8px;justify-content:flex-end"><div class="bar" style="width:60px"><i style="width:{{ i.priority }}%"></i></div>{{ '%.0f'|format(i.priority) }}</div></td><td>{{ avatar(i.owner) }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+{% endblock %}

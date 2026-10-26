@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% from "_ui.html" import stacked %}{% block title %}Trends{% endblock %}{% block crumbs %}Trends{% endblock %}
+{% block actions %}<form method="get"><label class="sr-only" for="weeks">Date range</label><select id="weeks" name="weeks" onchange="this.form.submit()">{% for w in [4,8,12,26] %}<option value="{{ w }}" {{ 'selected' if w==weeks }}>Last {{ w }} weeks</option>{% endfor %}</select></form>{% endblock %}
+{% block content %}<h1>Trends</h1><p class="sub">Weekly ticket volume by predicted category for the last {{ weeks }} weeks. Weeks end on the latest ticket date.</p>
+<div class="card"><div class="card-h"><h2>Tickets per week</h2></div><div class="card-b" aria-hidden="true">{{ stacked(series, labels, colours) }}
+<div class="legend" style="margin-top:8px">{% for cat in series %}<span><span class="dot" style="background:{{ colours.get(cat) }}"></span>{{ cat|pretty }}</span>{% endfor %}</div></div></div>
+<div class="card" style="margin-top:16px"><div class="card-h"><h2>Data table</h2><span class="right">same data as the chart</span></div><div class="tbl-wrap"><table><caption class="sr-only">Tickets per week by category</caption>
+<thead><tr><th scope="col">Category</th>{% for l in labels %}<th scope="col" class="num">{{ l }}</th>{% endfor %}</tr></thead><tbody>
+{% for cat, vals in series.items() %}<tr><th scope="row" style="font-weight:550">{{ cat|pretty }}</th>{% for v in vals %}<td class="num">{{ v }}</td>{% endfor %}</tr>{% endfor %}
+<tr><th scope="row">Total</th>{% for t in totals %}<td class="num"><b>{{ t }}</b></td>{% endfor %}</tr></tbody></table></div></div>{% endblock %}

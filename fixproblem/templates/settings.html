@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% from "_ui.html" import icon %}{% block title %}Settings{% endblock %}
+{% block crumbs %}Settings{% endblock %}
+{% block content %}<h1>Settings</h1><p class="sub">Tune the AI and connect alerts to your team chat.</p>
+<div class="grid g2e"><form method="post" class="card"><div class="card-h"><h2 style="display:flex;gap:8px;align-items:center">{{ icon('brain') }} Detection</h2></div><div class="card-b">
+{% for k, (typ, lo, hi, help) in fields.items() if k not in ('webhook_url', 'assistant_share_text') %}<label class="field"><span>{{ k|pretty }}</span><input type="number" name="{{ k }}" value="{{ values[k] }}" step="{{ '0.05' if typ.__name__ == 'float' else '1' }}" min="{{ lo }}" max="{{ hi }}" style="width:140px"><small>{{ help }} ({{ lo }}–{{ hi }})</small></label>{% endfor %}
+<button class="btn primary">Save</button></div></form>
+<div><form method="post" class="card"><div class="card-h"><h2>Alert notifications</h2></div><div class="card-b">
+<label class="field"><span>Webhook URL</span><input type="text" name="webhook_url" value="{{ values.webhook_url }}" placeholder="https://hooks.slack.com/services/…" style="width:100%"><small>{{ fields.webhook_url[3] }}. Each alert is sent once.</small></label>
+<div style="display:flex;gap:8px"><button class="btn primary">Save</button><button class="btn" name="action" value="test_webhook">Send test message</button></div></div></form>
+<form method="post" class="card" style="margin-top:16px"><div class="card-h"><h2>AI assistant</h2></div><div class="card-b">
+<p class="small" style="margin-top:0">Provider: {% if ai_provider %}<span class="pill green">{{ ai_provider|capitalize }} · {{ ai_model }}</span>{% else %}<span class="pill">Built-in answers only</span>{% endif %}</p>
+<p class="muted small">To use Claude, OpenAI or Gemini, set an environment variable before starting the app: <code>ANTHROPIC_API_KEY</code>, <code>OPENAI_API_KEY</code> or <code>GEMINI_API_KEY</code> (optionally <code>FIXPROBLEM_AI_PROVIDER</code> and <code>FIXPROBLEM_AI_MODEL</code>). Keys are never stored in the database. The AI only rewrites answers; actions always need a person to click.</p>
+<label class="check"><input type="hidden" name="assistant_share_text" value="0"><input type="checkbox" name="assistant_share_text" value="1" {{ 'checked' if values.assistant_share_text == '1' }}> <span>Allow the assistant to send ticket excerpts to the external AI provider. Off by default: without this, only documentation and counts are sent.</span></label>
+<button class="btn primary" style="margin-top:8px">Save</button></div></form>
+<div class="card" style="margin-top:16px"><div class="card-h"><h2>Delivery log</h2></div><table><tbody>{% for n in log %}<tr><td class="small nowrap">{{ n.at }}</td><td>{{ n.alert_key }}</td><td>{% if n.ok %}<span class="pill green">sent</span>{% else %}<span class="pill red" title="{{ n.detail }}">failed</span>{% endif %}</td></tr>{% else %}<tr><td class="muted">Nothing sent yet.</td></tr>{% endfor %}</tbody></table></div></div></div>{% endblock %}

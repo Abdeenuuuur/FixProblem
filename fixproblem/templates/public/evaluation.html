@@ -1,0 +1,12 @@
+{% extends "public/_layout.html" %}{% block title %}Evaluation{% endblock %}
+{% block page %}<article class="doc"><h1>How we evaluate Fixproblem</h1>
+<p><span class="sample-label">SYNTHETIC BENCHMARK</span> These results come from synthetic tickets generated from templates for a fictional company. They are <b>not</b> customer measurements and real-world accuracy will be lower. Measure on a sample of your own tickets before relying on the results.</p>
+{% if m %}{% set c = m.classification %}{% set e = m.emerging_detection %}{% set i = m.issue_discovery %}
+<h2>Classification</h2><p>Trained on the oldest {{ c.train_size }} tickets using agent tags (about 7% deliberately wrong), tested on the newest {{ c.test_size }} held-out tickets against the true category. Human corrections from the review queue are never used to score accuracy.</p>
+<table><thead><tr><th>Method</th><th class="num">Accuracy</th></tr></thead><tbody><tr><td>Majority-class baseline</td><td class="num">{{ '%.1f'|format(100*c.majority_baseline_accuracy) }}%</td></tr>
+<tr><td>Agents’ own tags</td><td class="num">{{ '%.1f'|format(100*c.agent_tag_accuracy) }}%</td></tr><tr><td><b>Fixproblem classifier</b></td><td class="num"><b>{{ '%.1f'|format(100*c.accuracy) }}%</b></td></tr></tbody></table>
+<h2>Emerging-issue detection (historical replay)</h2><table><tbody><tr><td>False alarms in the 12 weeks before the injected fault</td><td class="num">{{ e.pre_release_runs_with_false_alarm }} of {{ e.pre_release_runs }}</td></tr>
+<tr><td>Days from the fault starting to the first alert</td><td class="num">{{ e.days_to_first_alert }}</td></tr><tr><td>Alert precision / recall (tickets)</td><td class="num">{{ '%.0f'|format(100*e.final_alert_ticket_precision) }}% / {{ '%.0f'|format(100*e.final_alert_ticket_recall) }}%</td></tr></tbody></table>
+<h2>Issue grouping</h2><p>Homogeneity {{ '%.2f'|format(i.homogeneity) }}, completeness {{ '%.2f'|format(i.completeness) }}. Groups are pure but over-split: one problem described in different words can appear as several groups. Alerts merge groups that spike together.</p>{% endif %}
+<h2>Limitations</h2><ul><li>Synthetic, template-based English text: far cleaner than real tickets.</li><li>One fictional company; your categories and volumes will differ.</li><li>An alert shows a change in demand, not its cause.</li></ul>
+<p>Method and code: <code>scripts/evaluate.py</code> in the project repository.</p></article>{% endblock %}

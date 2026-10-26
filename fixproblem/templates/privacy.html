@@ -1,0 +1,7 @@
+{% extends "public/_layout.html" %}{% block title %}Privacy{% endblock %}
+{% block page %}<article class="doc"><h1>Privacy notice</h1><p class="muted">Pilot notice written with UK GDPR principles in mind. It describes what this version actually does.</p>
+<h2>What we collect</h2><p>Account details (name, work email, workspace name), plan and payment records, whether you agreed to product emails, and a record of what you do in the app (pages, actions, time). Demo visitors are recorded with a random ID. Contact and support forms store what you send us.</p>
+<h2>What we never collect</h2><p>Your password in readable form (we store a one-way hash) or card details (handled by Stripe). Diagnostics are attached to support requests only if you tick the box, and never include ticket text.</p>
+<h2>Customer ticket data</h2><p>Tickets you import are used only to provide the analysis. Optional external AI summaries are off unless an admin adds an API key; when on, recent ticket text for an alert is sent to that provider.</p>
+<h2>Your rights</h2><p>From My account you can download your data or delete your account. You can also contact us, and complain to the Information Commissioner’s Office (ico.org.uk).</p>
+<h2>Retention</h2><p>Activity records up to 12 months; payment records 6 years for tax purposes; support requests until resolved plus 12 months.</p></article>{% endblock %}

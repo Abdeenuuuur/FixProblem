@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% from "_ui.html" import icon %}{% block crumbs %}Dashboard{% endblock %}{% block content %}
+<div class="card empty"><div class="ic">{{ icon('inbox') }}</div><h1>No tickets yet</h1><p class="muted">Upload a CSV or explore the sample workspace.</p>
+{% if can('import') %}<div style="display:flex;gap:8px;justify-content:center;margin-top:18px"><a class="btn primary" href="{{ url_for('import_view') }}">Upload my tickets</a>
+{% if account %}<form method="post" action="{{ url_for('workspace_sample') }}"><button class="btn">Explore sample data</button></form>{% else %}<form method="post" action="{{ url_for('import_view') }}"><button class="btn" name="sample" value="1">Load sample data</button></form>{% endif %}</div>
+{% if account %}<p class="muted small" style="margin-top:12px">Sample data opens in a separate workspace, so it never mixes with your own tickets.</p>{% endif %}
+{% else %}<p class="muted">Ask an admin to import data.</p>{% endif %}</div>{% endblock %}

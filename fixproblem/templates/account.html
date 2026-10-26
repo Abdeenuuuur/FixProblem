@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% from "_ui.html" import icon %}{% block title %}My account{% endblock %}
+{% block crumbs %}My account{% endblock %}
+{% block content %}<h1>My account</h1><p class="sub">{{ account.email }}</p>
+<div class="grid g2e" style="max-width:900px"><div class="card card-b"><div class="props"><span class="k">Name</span><span>{{ account.name }}</span><span class="k">Email</span><span>{{ account.email }}</span>
+<span class="k">Plan</span><span><span class="pill accent">{{ account.plan|capitalize }}</span></span><span class="k">Member since</span><span>{{ account.created_at[:10] }}</span>
+<span class="k">Sign-up offer</span><span>{{ 'Used' if account.offer_used else '10% off your first Pro month' }}</span><span class="k">Product emails</span><span>{{ 'Yes' if account.marketing_ok else 'No' }}</span></div>
+<p style="margin-bottom:0"><a class="btn sm" href="{{ url_for('billing') }}">Manage plan</a></p></div>
+<div class="card card-b"><h2>Your data</h2><p class="muted">Download everything Fixproblem holds about you: your account, payments and activity history. Your password is never included because we only store a one-way hash of it.</p>
+<a class="btn sm" href="{{ url_for('account_export') }}">{{ icon('download') }}Download my data (JSON)</a>
+<h2 style="margin-top:22px;color:var(--red)">Delete account</h2><p class="muted">Permanently deletes your account and activity history. Comments you wrote stay, credited to “deleted user”.</p>
+<form method="post" action="{{ url_for('account_delete') }}" style="display:flex;gap:8px"><input type="text" name="confirm" placeholder="Type DELETE"><button class="btn sm" style="color:var(--red)">Delete my account</button></form></div></div>{% endblock %}

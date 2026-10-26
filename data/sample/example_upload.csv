@@ -1,0 +1,6 @@
+Case ID,Opened,Message,Requester email,Tag
+NEW-001,02/09/2026 09:15,The app crashes every time I log in since the latest update,ana@example.com,technical_app
+NEW-002,02/09/2026 10:40,I have been charged twice for August,ben@example.com,billing
+NEW-003,03/09/2026 08:05,No internet at all since this morning,cara@example.com,connectivity
+NEW-004,31/31/2026 25:00,This row has an impossible date,dan@example.com,billing
+NEW-005,03/09/2026 11:20,,eve@example.com,delivery

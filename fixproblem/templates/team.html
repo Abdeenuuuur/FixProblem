@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% from "_ui.html" import avatar %}{% block title %}Team{% endblock %}{% block crumbs %}Team{% endblock %}
+{% block content %}<h1>Team</h1><p class="sub">Who can do what in this workspace. Permissions are enforced on the server for every request.</p>
+<div class="grid g2e"><div class="card"><div class="card-h"><h2>{{ 'Members of the sample workspace' if not account else 'Members of this workspace' }}</h2></div><table><tbody>{% if account %}<tr><td>{{ avatar(account.name, 'owner') }} {{ account.name }}</td><td><span class="pill">owner</span></td></tr>{% else %}{% for u, r in members %}<tr><td>{{ avatar(u, r) }} {{ u|capitalize }}</td><td><span class="pill">{{ r }}</span></td></tr>{% endfor %}{% endif %}</tbody></table>
+<div class="card-b"><p class="muted small" style="margin:0"><b>Invitations are not available yet.</b> Each workspace is private to its owner today; inviting colleagues with Owner, Admin, Analyst and Viewer roles is the next step.</p></div></div>
+<div class="card card-b"><h2>Roles</h2><table><thead><tr><th>Role</th><th>Can</th></tr></thead><tbody>
+<tr><td>Guest (demo)</td><td class="small">View the sample workspace</td></tr><tr><td>Agent</td><td class="small">+ comment on issues, correct AI labels; sees masked customer emails</td></tr>
+<tr><td>Analyst</td><td class="small">+ change status and owner, see full customer data, export</td></tr><tr><td>Owner / Admin</td><td class="small">+ import data, retrain, change settings and billing</td></tr></tbody></table></div></div>{% endblock %}

@@ -1,0 +1,4 @@
+-r requirements.txt
+pytest>=8.0
+playwright>=1.45   # only for scripts/take_screenshots.py
+pillow>=10.0       # only for scripts/make_demo_video.py
