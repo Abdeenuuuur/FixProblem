@@ -14,9 +14,15 @@ reports to decide what to fix first. It analyses support data; it is not a helpd
 ```bash
 git clone https://github.com/Abdeenuuuur/fixproblem.git && cd fixproblem
 ```
-- **Easiest:** double-click `start-mac.command` (Mac) or `start-windows.bat` (Windows). The first run
-  installs everything and opens http://127.0.0.1:5001.
-- **Manual:** `python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python scripts/seed_demo.py && python -m fixproblem.app`
+- **Easiest:** double-click `start-mac.command` (Mac) or `start-windows.bat` (Windows).
+  The first run installs everything (about a minute) and opens http://127.0.0.1:5001.
+  On a Mac, if macOS says it can't be opened, right-click the file → **Open** → **Open** (only the first time).
+- **Manual (Mac / Linux):**
+  `python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python scripts/seed_demo.py && python -m fixproblem.app`
+- **Manual (Windows):**
+  `python -m venv .venv && .venv\Scripts\activate && pip install -r requirements.txt && python scripts\seed_demo.py && python -m fixproblem.app`
+
+Requires Python 3.11 or newer.
 
 Then:
 - Click **Try the interactive demo** (no account; clearly labelled synthetic data).
